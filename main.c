@@ -1,11 +1,12 @@
 #include "lib/sdl_utils.h"
 #include "lib/scene.h"
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_ttf.h> // Pour SDL_ttf
+#include <SDL2/SDL_ttf.h> 
 #include <SDL2/SDL_mixer.h>
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
 #include <stdbool.h>
+
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
@@ -13,6 +14,9 @@
 
 
 int main(int argc, char* argv[]) {
+
+    
+    
     SDL_Window* window;
     SDL_Renderer* renderer;
 
@@ -28,7 +32,7 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    // Charger l'image de fond (utilisée dans toutes les scènes sauf la simulation)
+    // Charger l'image de fond (utilisée dans toutes les scènes sauf la simulation de course)
     SDL_Surface* bg_surface = IMG_Load("ressources/background.jpg");
     if (!bg_surface) {
         printf("Erreur lors du chargement de l'image de fond : %s\n", IMG_GetError());
@@ -62,7 +66,7 @@ int main(int argc, char* argv[]) {
     }
 
     // Charger la police
-    TTF_Font* button_font = TTF_OpenFont("ressources/arial.ttf", 24); // Assurez-vous de spécifier le bon chemin
+    TTF_Font* button_font = TTF_OpenFont("ressources/arial.ttf", 24);
     if (!button_font) {
         printf("Erreur lors du chargement de la police : %s\n", TTF_GetError());
         cleanup_sdl(window, renderer);
@@ -83,10 +87,11 @@ int main(int argc, char* argv[]) {
     TTF_SetFontStyle(title_font, TTF_STYLE_BOLD);
     TTF_SetFontStyle(text_font, TTF_STYLE_BOLD);
     TTF_SetFontStyle(button_font, TTF_STYLE_BOLD);
-    // Initialisation de la scène
-    SceneType current_scene = SCENE_MENU;  // Commence avec le menu principal
+
+    // Initialisation de la première scène
+    SceneType current_scene = SCENE_MENU;  // Commencer  avec le menu principal
     init_scene(current_scene);  // Initialiser la scène du menu
-    Mix_PlayMusic(music, -1);   // Jouer la musique en boucle dans le menu
+    Mix_PlayMusic(music, -1);   // Jouer la musique en boucle 
 
     bool running = true;
     SDL_Event event;
