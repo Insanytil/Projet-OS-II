@@ -18,3 +18,7 @@ Utilisation : Chargement et affichage d'images comme le fond d'écran dans le pr
 
 
 Ces dépendances doivent être installées pour que le projet puisse être compilé et exécuté correctement
+
+
+# commande de compilation actuelle : 
+gcc -o simulateur_f1 main.c button.c sdl_utils.c menu.c load_save.c event_handler.c scene.c init.c choice.c -lSDL2 -lSDL2_ttf -lSDL2_mixer -lSDL2_image

@@ -3,6 +3,7 @@
 #include "lib/button.h"
 #include "lib/event_handler.h"
 #include "lib/pilote.h"
+#include "lib/global.h"
 #include <stdio.h>
 #include <dirent.h>
 #include <sys/stat.h>
@@ -61,13 +62,13 @@ void init_load_save() {
 int handle_load_save_events(SDL_Event* event) {
     int clicked_button = handle_event(event, save_buttons, num_saves);
 
-    if (clicked_button >= 0 && clicked_button < num_saves) {
-        char full_path[256];
-        snprintf(full_path, sizeof(full_path), "save/%s", saves[clicked_button]);
-
-        
-        
+   if (clicked_button >= 0 && clicked_button < num_saves) {
+        snprintf(chemin_sauvegarde, sizeof(chemin_sauvegarde), "saves/%s", saves[clicked_button]);
+        printf("Chemin de la sauvegarde sélectionnée : %s\n", chemin_sauvegarde);
+        fflush(stdout);
+        return 1;  // Indiquer qu'une sauvegarde a été sélectionnée
     }
+
 
     // Vérifier si le bouton "Retour au menu" a été cliqué
     if (handle_event(event, &back_button, 1) == 0) {

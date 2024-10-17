@@ -8,6 +8,7 @@
 #include <unistd.h> 
 #include <stdio.h>
 #include <string.h>
+#include "lib/global.h"
 
 #define NUM_PILOTES 20
 
@@ -29,33 +30,33 @@ void chargement_pilotes(const char* filenom, Pilote pilotes[], int* compteur_pil
         return;
     }
 
-    char buffer[2096];  // Taille du buffer pour stocker les données des pilotes
+    char buffer[4096];  // Taille du buffer pour stocker les données des pilotes
     int bytes_read = read(fichier, buffer, sizeof(buffer) - 1);
     if (bytes_read == -1) {
         perror("Erreur lors de la lecture du fichier");
         close(fichier);
         return;
     }
-    buffer[bytes_read] = '\0'; 
+    buffer[bytes_read] = '\0';
 
-    char* line = strtok(buffer, "\n");  
+    char* line = strtok(buffer, "\n");
     *compteur_pilote = 0;
 
     while (line != NULL && *compteur_pilote < NUM_PILOTES) {
-        sscanf(line, "%[^,],%[^,],%d,%[^,],%s",
+        sscanf(line, "%[^,],%[^,],%d,%[^,],%[^,],%d",
                pilotes[*compteur_pilote].prenom,
                pilotes[*compteur_pilote].nom,
                &pilotes[*compteur_pilote].numero,
                pilotes[*compteur_pilote].team,
-               pilotes[*compteur_pilote].code);
+               pilotes[*compteur_pilote].code,
+               &pilotes[*compteur_pilote].points);
 
-        pilotes[*compteur_pilote].points = 0;  
         (*compteur_pilote)++;
 
-        line = strtok(NULL, "\n");  
+        line = strtok(NULL, "\n");
     }
 
-    close(fichier);  
+    close(fichier);
 }
 
 void chargement_courses(const char* filename, Course courses[], int* compteur_course) {
@@ -103,7 +104,14 @@ void chargement_courses(const char* filename, Course courses[], int* compteur_co
 }
 
 void init_championnat() {
-    chargement_pilotes("saves/pilotes.csv", pilotes, &compteur_pilote);
+
+    if (strcmp(chemin_sauvegarde, "") == 0) {
+        chargement_pilotes("ressources/pilotes.csv", pilotes, &compteur_pilote);
+    } else {
+        // Sinon, on utilise le chemin sauvegardé
+        chargement_pilotes(chemin_sauvegarde, pilotes, &compteur_pilote);
+    }
+    
     chargement_courses("courses.csv", courses, &compteur_course);
     init_buttons[0] = (Button){ .rect = {50, 550, 180, 30}, .label = "Menu"};
     init_buttons[1] = (Button){ .rect = { 570, 550, 180, 30}, .label = "Continue"};
@@ -116,7 +124,7 @@ void render_init(SDL_Renderer* renderer, TTF_Font* text_font, TTF_Font* button_f
     char buffer[128];
 
     for (int i = 0; i < compteur_pilote; i++) {
-        snprintf(buffer, sizeof(buffer), "%d. %s %s - %s", i + 1, pilotes[i].prenom, pilotes[i].nom, pilotes[i].team);
+        snprintf(buffer, sizeof(buffer), "%d. %s %s - %s / [ %d ]", i + 1, pilotes[i].prenom, pilotes[i].nom, pilotes[i].team, pilotes[i].points);
         render_text_fond_blanc(renderer, text_font, buffer, black, 25, 80 + i * 20, 300);
     }
 
@@ -134,7 +142,7 @@ void render_init(SDL_Renderer* renderer, TTF_Font* text_font, TTF_Font* button_f
 int handle_init_events(SDL_Event* event) {
      if (handle_event(event, init_buttons, 2) == 0) {
         return -2;
-     } else if (handle_event(event, init_buttons,2) == 1) {
+     } else if (handle_event(event, init_buttons, 2) == 1) {
         return 1;
      }
 };

@@ -109,9 +109,9 @@ int main(int argc, char* argv[]) {
             // Si la scène a changé
             if (new_scene != current_scene) {
 
-                // Si on passe entre SCENE_MENU et SCENE_LOAD_SAVE ou SCENE_INIT cela permet de ne pas arrêter la musique
-                if (!((current_scene == SCENE_LOAD_SAVE || current_scene == SCENE_MENU || current_scene == SCENE_INIT) &&
-                      (new_scene == SCENE_LOAD_SAVE || new_scene == SCENE_MENU || new_scene == SCENE_INIT))) {
+                // Si on passe entre SCENE_MENU et SCENE_LOAD_SAVE ou SCENE_INIT ou SCENE_CHOICE ou SCENE_RACE_CHOICE cela permet de ne pas arrêter la musique
+                if (!((current_scene == SCENE_LOAD_SAVE || current_scene == SCENE_MENU || current_scene == SCENE_INIT || current_scene == SCENE_CHOICE || current_scene == SCENE_RACE_CHOICE) &&
+                      (new_scene == SCENE_LOAD_SAVE || new_scene == SCENE_MENU || new_scene == SCENE_INIT || new_scene == SCENE_CHOICE || new_scene == SCENE_RACE_CHOICE))) {
                     Mix_HaltMusic();  // Arrêter la musique si on quitte une de ces scènes pour une autre non comprise 
                 }
 

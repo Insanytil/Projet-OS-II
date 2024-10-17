@@ -2,6 +2,7 @@
 #include "lib/menu.h"
 #include "lib/load_save.h"
 #include "lib/init.h"
+#include "lib/choice.h"
 /*
 #include "lib/result.h"
 #include "lib/race_choice.h"
@@ -23,6 +24,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 
+char* file_path;
 // Fonction pour initialiser une scène
 void init_scene(SceneType scene) {
     switch (scene) {
@@ -35,7 +37,11 @@ void init_scene(SceneType scene) {
         case SCENE_INIT:
             init_championnat();
             break;
-       /*
+       
+        case SCENE_CHOICE:
+            init_choice();
+            break;
+        /*
         case SCENE_RACE_CHOICE:
             init_course_selection(); // Initialisation de la scène de sélection des courses (attention)
             break;
@@ -90,6 +96,7 @@ SceneType update_scene(SceneType current_scene, SDL_Event* event) {
             if (clicked_save == -2) {
                 return SCENE_MENU; // Passer à la scène du menu principal
             } else if (clicked_save >= 0) {
+                char* path_save = "yo";
                 return SCENE_INIT;  // Passer à la simulation après chargement de la sauvegarde
             }
             break;
@@ -104,18 +111,20 @@ SceneType update_scene(SceneType current_scene, SDL_Event* event) {
             }
             break;
         }
-    /*
+    
         case SCENE_CHOICE: {
             int clicked_choice = handle_choice_events(event);
-            if (clicked_choice == 1) {
+            if (clicked_choice == 0) {
                 return SCENE_RESULT; // Passer à l'interface du classement actuel
-            } else if (clicked_choice == 2) {
+            } else if (clicked_choice == 1) {
                 return SCENE_RACE_CHOICE; // Passer à l'interface de choix de la course
-            } else if (clicked_choice == -1) {
+            } else if (clicked_choice == 2) {
                 return SCENE_MENU; // Passer à l'interface du Menu principal
             }
             break;
         }
+
+        /*
 
         case  SCENE_RESULT: {
             int clicked_result = handle_result_events(event);
@@ -223,10 +232,11 @@ void render_scene(SceneType scene, SDL_Renderer* renderer, TTF_Font* title_font,
         case SCENE_INIT:
             render_init(renderer, text_font, button_font);
             break;
-        /***
+        
         case SCENE_CHOICE:
             render_choice(renderer, title_font, button_font);
             break;
+        /*    
         case SCENE_RESULT:
             render_result(renderer, title_font, button_font, text_font);
             break;
