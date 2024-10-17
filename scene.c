@@ -5,6 +5,7 @@
 #include "lib/choice.h"
 #include "lib/global.h"
 #include "lib/save.h"
+#include "lib/score.h"
 /*
 #include "lib/result.h"
 #include "lib/race_choice.h"
@@ -47,13 +48,15 @@ void init_scene(SceneType scene) {
         case SCENE_SAVE:
             init_save_scene();
             break;
+        
+        case SCENE_SCORE:
+            init_score_scene();
+            break;
         /*
         case SCENE_RACE_CHOICE:
             init_course_selection(); // Initialisation de la scène de sélection des courses (attention)
             break;
-        case SCENE_RESULT:  // Initialisation de la scène des résultats (points des pilotes à l'instant t)
-            init_result();
-            break;
+    
         case SCENE_PRACTICE_CLASSIC: // Initialisation de la scène de practice
             init_practice_classic();
             break;
@@ -121,7 +124,7 @@ SceneType update_scene(SceneType current_scene, SDL_Event* event) {
         case SCENE_CHOICE: {
             int clicked_choice = handle_choice_events(event);
             if (clicked_choice == 0) {
-                return SCENE_RESULT; // Passer à l'interface du classement actuel
+                return SCENE_SCORE; // Passer à l'interface du classement actuel
             } else if (clicked_choice == 1) {
                 return SCENE_RACE_CHOICE; // Passer à l'interface de choix de la course
             } else if (clicked_choice == 2) {
@@ -135,17 +138,17 @@ SceneType update_scene(SceneType current_scene, SDL_Event* event) {
             if (clicked_save == 1) {
                 return SCENE_MENU;
             }
+            break;
         }
 
-        /*
-
-        case  SCENE_RESULT: {
-            int clicked_result = handle_result_events(event);
-            if (clicked_result == 1) {
+        case  SCENE_SCORE: {
+            int clicked_score = handle_score_events(event);
+            if (clicked_score == 0) {
                 return SCENE_CHOICE; // Passer à l'interface des choix (résultats / run a race / save)
             }
             break;
         }
+        /*
         case SCENE_RACE_CHOICE: {
             int clicked_race_choice = handle_race_choice(event);
             int is_sprint = check_for_sprint(clicked_race_choice);
@@ -253,10 +256,12 @@ void render_scene(SceneType scene, SDL_Renderer* renderer, TTF_Font* title_font,
         case SCENE_SAVE:
             render_save_scene(renderer, button_font);
             break;
-        /*    
-        case SCENE_RESULT:
-            render_result(renderer, title_font, button_font, text_font);
+           
+        case SCENE_SCORE:
+            render_score_scene(renderer, title_font, button_font, text_font);
             break;
+
+        /*
         case SCENE_RACE_CHOICE:
             render_race_choice(renderer, title_font, button_font);
             break;
