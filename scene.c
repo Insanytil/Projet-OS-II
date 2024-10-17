@@ -2,6 +2,7 @@
 #include "lib/menu.h"
 #include "lib/load_save.h"
 #include "lib/init.h"
+/*
 #include "lib/result.h"
 #include "lib/race_choice.h"
 #include "lib/practice_classic.h"
@@ -15,6 +16,7 @@
 #include "lib/continue_to_qualif_sprint.h"
 #include "lib/continue_to_race.h"
 #include "lib/continue_to_sprint.h"
+*/
 
 #include <stdio.h>
 #include <SDL2/SDL.h>
