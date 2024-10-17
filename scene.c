@@ -99,6 +99,8 @@ SceneType update_scene(SceneType current_scene, SDL_Event* event) {
             int clicked_init = handle_init_events(event);
             if (clicked_init == -2) {
             return SCENE_MENU; // Passer à l'interface des choix (résultats / run a race / save)
+            } else if (clicked_init == 1) {
+                return SCENE_CHOICE;
             }
             break;
         }
