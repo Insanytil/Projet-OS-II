@@ -44,6 +44,7 @@ void init_load_save() {
 
             if (is_regular_file(full_path)) {
                 saves[i] = strdup(ent->d_name);
+                sanitize_filename(saves[i]);
                 save_buttons[i] = (Button){ .rect = {0, 0, 200, 30}, .label = saves[i] };
                 i++;
             }
@@ -63,7 +64,8 @@ int handle_load_save_events(SDL_Event* event) {
     int clicked_button = handle_event(event, save_buttons, num_saves);
 
    if (clicked_button >= 0 && clicked_button < num_saves) {
-        snprintf(chemin_sauvegarde, sizeof(chemin_sauvegarde), "saves/%s", saves[clicked_button]);
+        snprintf(chemin_sauvegarde, sizeof(chemin_sauvegarde), "saves/%s.csv", saves[clicked_button]);
+        snprintf(save_name, sizeof(save_name), "%s",saves[clicked_button]);
         printf("Chemin de la sauvegarde sélectionnée : %s\n", chemin_sauvegarde);
         fflush(stdout);
         return 1;  // Indiquer qu'une sauvegarde a été sélectionnée

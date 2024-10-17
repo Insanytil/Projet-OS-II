@@ -14,9 +14,6 @@ void init_choice() {
 
 int handle_choice_events(SDL_Event* event) {
     int clicked_button = handle_event(event, choice_buttons, 3);
-    if (clicked_button == 2) {
-        
-    }
     return clicked_button;
 }
 
@@ -31,6 +28,3 @@ void render_choice(SDL_Renderer* renderer, TTF_Font* title_font, TTF_Font* butto
     render_text_fond_noir(renderer, title_font, "Menu de selection", red, 300, 200, 200);
 }
 
-void choice_save() {
-    printf("Demande de sauvegarde du championnat");
-}

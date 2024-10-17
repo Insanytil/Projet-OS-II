@@ -46,6 +46,7 @@ void init_scene(SceneType scene) {
 
         case SCENE_SAVE:
             init_save_scene();
+            break;
         /*
         case SCENE_RACE_CHOICE:
             init_course_selection(); // Initialisation de la scène de sélection des courses (attention)
@@ -247,6 +248,10 @@ void render_scene(SceneType scene, SDL_Renderer* renderer, TTF_Font* title_font,
         
         case SCENE_CHOICE:
             render_choice(renderer, title_font, button_font);
+            break;
+        
+        case SCENE_SAVE:
+            render_save_scene(renderer, button_font);
             break;
         /*    
         case SCENE_RESULT:
