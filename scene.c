@@ -3,6 +3,7 @@
 #include "lib/load_save.h"
 #include "lib/init.h"
 #include "lib/choice.h"
+#include "lib/global.h"
 /*
 #include "lib/result.h"
 #include "lib/race_choice.h"
@@ -85,6 +86,7 @@ SceneType update_scene(SceneType current_scene, SDL_Event* event) {
         case SCENE_MENU: {
             int clicked_button = handle_menu_events(event);
             if (clicked_button == 0) {
+                chemin_sauvegarde[0] = '\0';
                 return SCENE_INIT;  // Passer à la scène d'initialisation d'un nouveau championnat
             } else if (clicked_button == 1) {
                 return SCENE_LOAD_SAVE;  // Passer à la scène de chargement des sauvegardes
@@ -96,7 +98,6 @@ SceneType update_scene(SceneType current_scene, SDL_Event* event) {
             if (clicked_save == -2) {
                 return SCENE_MENU; // Passer à la scène du menu principal
             } else if (clicked_save >= 0) {
-                char* path_save = "yo";
                 return SCENE_INIT;  // Passer à la simulation après chargement de la sauvegarde
             }
             break;

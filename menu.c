@@ -1,5 +1,6 @@
 #include "lib/menu.h"
 #include "lib/button.h"
+#include "lib/global.h"
 #include "lib/sdl_utils.h"
 #include "lib/event_handler.h"
 
