@@ -8,7 +8,8 @@
 typedef enum {
     SCENE_MENU,             // Menu principal
     SCENE_INIT,        // Simulation de course
-    SCENE_CHOICE,         // Affichage des résultats
+    SCENE_CHOICE,
+    SCENE_SAVE,         // Affichage des résultats
     SCENE_RESULT,   // Fin de championnat
     SCENE_LOAD_SAVE,         // Ajout de la scène pour charger une sauvegarde
     SCENE_RACE_CHOICE,      // interface de sélection de la course

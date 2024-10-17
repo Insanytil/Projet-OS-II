@@ -14,6 +14,9 @@ void init_choice() {
 
 int handle_choice_events(SDL_Event* event) {
     int clicked_button = handle_event(event, choice_buttons, 3);
+    if (clicked_button == 2) {
+        
+    }
     return clicked_button;
 }
 

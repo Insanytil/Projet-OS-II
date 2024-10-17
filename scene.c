@@ -4,6 +4,7 @@
 #include "lib/init.h"
 #include "lib/choice.h"
 #include "lib/global.h"
+#include "lib/save.h"
 /*
 #include "lib/result.h"
 #include "lib/race_choice.h"
@@ -42,6 +43,9 @@ void init_scene(SceneType scene) {
         case SCENE_CHOICE:
             init_choice();
             break;
+
+        case SCENE_SAVE:
+            init_save_scene();
         /*
         case SCENE_RACE_CHOICE:
             init_course_selection(); // Initialisation de la scène de sélection des courses (attention)
@@ -120,9 +124,16 @@ SceneType update_scene(SceneType current_scene, SDL_Event* event) {
             } else if (clicked_choice == 1) {
                 return SCENE_RACE_CHOICE; // Passer à l'interface de choix de la course
             } else if (clicked_choice == 2) {
-                return SCENE_MENU; // Passer à l'interface du Menu principal
+                return SCENE_SAVE; // Passer à l'interface du Menu principal
             }
             break;
+        }
+
+        case SCENE_SAVE: {
+            int clicked_save = handle_save_scene_events(event);
+            if (clicked_save == 1) {
+                return SCENE_MENU;
+            }
         }
 
         /*
