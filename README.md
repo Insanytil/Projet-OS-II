@@ -21,4 +21,4 @@ Ces dépendances doivent être installées pour que le projet puisse être compi
 
 
 # commande de compilation actuelle : 
-gcc -o simulateur_f1 main.c button.c sdl_utils.c menu.c load_save.c event_handler.c scene.c init.c choice.c global.h -lSDL2 -lSDL2_ttf -lSDL2_mixer -lSDL2_image
+gcc -o simulateur_f1 main.c button.c sdl_utils.c menu.c load_save.c event_handler.c scene.c init.c choice.c global.c save.c -lSDL2 -lSDL2_ttf -lSDL2_mixer -lSDL2_image
