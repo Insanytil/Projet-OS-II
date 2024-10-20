@@ -77,16 +77,29 @@ int main(int argc, char* argv[]) {
     TTF_Font* title_font = TTF_OpenFont("ressources/arial.ttf", 35);
     if (!title_font) {
         printf("Erreur lors du chargement de la police Title");
+        cleanup_sdl(window, renderer);
+        return EXIT_FAILURE;
     }
+    
 
     TTF_Font* text_font = TTF_OpenFont("ressources/arial.ttf", 17);
     if (!text_font) {
         printf("Erreur lors du chargement de la police texte");
+        cleanup_sdl(window, renderer);
+        return EXIT_FAILURE;
+    }
+
+    TTF_Font* course_text_font = TTF_OpenFont("ressources/arial.ttf", 11);
+    if (!course_text_font) {
+        printf("Erreur lors du chargement de la police course_text");
+        cleanup_sdl(window, renderer);
+        return EXIT_FAILURE;
     }
 
     TTF_SetFontStyle(title_font, TTF_STYLE_BOLD);
     TTF_SetFontStyle(text_font, TTF_STYLE_BOLD);
     TTF_SetFontStyle(button_font, TTF_STYLE_BOLD);
+    TTF_SetFontStyle(course_text_font, TTF_STYLE_BOLD);
 
     // Initialisation de la première scène
     SceneType current_scene = SCENE_MENU;  // Commencer  avec le menu principal
@@ -110,8 +123,8 @@ int main(int argc, char* argv[]) {
             if (new_scene != current_scene) {
 
                 // Si on passe entre SCENE_MENU et SCENE_LOAD_SAVE ou SCENE_INIT ou SCENE_CHOICE ou SCENE_RACE_CHOICE cela permet de ne pas arrêter la musique
-                if (!((current_scene == SCENE_LOAD_SAVE || current_scene == SCENE_MENU || current_scene == SCENE_INIT || current_scene == SCENE_CHOICE || current_scene == SCENE_RACE_CHOICE) &&
-                      (new_scene == SCENE_LOAD_SAVE || new_scene == SCENE_MENU || new_scene == SCENE_INIT || new_scene == SCENE_CHOICE || new_scene == SCENE_RACE_CHOICE))) {
+                if (!((current_scene == SCENE_LOAD_SAVE || current_scene == SCENE_MENU || current_scene == SCENE_INIT || current_scene == SCENE_CHOICE || current_scene == SCENE_RACE_CHOICE || current_scene == SCENE_SCORE) &&
+                      (new_scene == SCENE_LOAD_SAVE || new_scene == SCENE_MENU || new_scene == SCENE_INIT || new_scene == SCENE_CHOICE || new_scene == SCENE_RACE_CHOICE || new_scene == SCENE_SCORE))) {
                     Mix_HaltMusic();  // Arrêter la musique si on quitte une de ces scènes pour une autre non comprise 
                 }
 
@@ -143,7 +156,7 @@ int main(int argc, char* argv[]) {
         }
 
         // rendre (envoyer à l'affichage) la scène actuelle
-        render_scene(current_scene, renderer, title_font, button_font, text_font);
+        render_scene(current_scene, renderer, title_font, button_font, text_font, course_text_font);
 
         // Mettre à jour l'affichage
         SDL_RenderPresent(renderer);
@@ -156,6 +169,7 @@ int main(int argc, char* argv[]) {
     TTF_CloseFont(title_font);
     TTF_CloseFont(button_font);
     TTF_CloseFont(text_font);
+    TTF_CloseFont(course_text_font);
     IMG_Quit();  
     cleanup_sdl(window, renderer);
     Mix_CloseAudio();  

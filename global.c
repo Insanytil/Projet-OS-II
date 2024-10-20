@@ -4,7 +4,7 @@
 
 char chemin_sauvegarde[256] = "";
 char save_name[256] = "";
-
+int course_selected = -1;
 void sanitize_filename(char* filename) {
     char* dot = strrchr(filename, '.');  
     if (dot != NULL && strcmp(dot, ".csv") == 0) {

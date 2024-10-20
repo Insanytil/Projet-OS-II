@@ -6,9 +6,10 @@
 #include "lib/global.h"
 #include "lib/save.h"
 #include "lib/score.h"
+#include "lib/race_choice.h"
+#include "lib/courses.h"
 /*
 #include "lib/result.h"
-#include "lib/race_choice.h"
 #include "lib/practice_classic.h"
 #include "lib/qualif_classic.h"
 #include "lib/qualif_sprint.h"
@@ -52,11 +53,11 @@ void init_scene(SceneType scene) {
         case SCENE_SCORE:
             init_score_scene();
             break;
-        /*
+        
         case SCENE_RACE_CHOICE:
             init_course_selection(); // Initialisation de la scène de sélection des courses (attention)
             break;
-    
+        /*
         case SCENE_PRACTICE_CLASSIC: // Initialisation de la scène de practice
             init_practice_classic();
             break;
@@ -148,19 +149,28 @@ SceneType update_scene(SceneType current_scene, SDL_Event* event) {
             }
             break;
         }
-        /*
+        
         case SCENE_RACE_CHOICE: {
-            int clicked_race_choice = handle_race_choice(event);
-            int is_sprint = check_for_sprint(clicked_race_choice);
-            if (clicked_race_choice >= 0 && is_sprint == 1) {
-                return SCENE_PRACTICE_SPRINT; // Passer à l'interface de la practice sprint
-            } else if (clicked_race_choice >= 0 && is_sprint == 0) {
-                return SCENE_PRACTICE_CLASSIC;
-            } if (clicked_race_choice == -1) {
+            int clicked_race_choice = handle_course_selection_events(event);
+            
+            if (clicked_race_choice >= 0) {
+                int is_sprint = check_is_sprint(clicked_race_choice);
+                if (is_sprint == 1) {
+                    course_selected = clicked_race_choice;
+                    printf("numéro de course : %d\n", course_selected);
+                return SCENE_PRACTICE_SPRINT; 
+                } else if (is_sprint == 0) {
+                    course_selected = clicked_race_choice;
+                    printf("numéro de course : %d\n", course_selected);
+                    return SCENE_PRACTICE_CLASSIC;
+                }
+            }
+            if (clicked_race_choice == -1) {
                 return SCENE_CHOICE; // Passer à l'interface des choix (résultats / run a race / save)
             }
             break;
         }
+        /*
         case SCENE_PRACTICE_CLASSIC: {
             return SCENE_CONTINUE_TO_QUALIF; // Passer à l'interface de demande de continuation (we classic)
             break;
@@ -237,7 +247,7 @@ SceneType update_scene(SceneType current_scene, SDL_Event* event) {
 }
 
 // Fonction pour rendre la scène actuelle
-void render_scene(SceneType scene, SDL_Renderer* renderer, TTF_Font* title_font, TTF_Font* button_font, TTF_Font* text_font) {
+void render_scene(SceneType scene, SDL_Renderer* renderer, TTF_Font* title_font, TTF_Font* button_font, TTF_Font* text_font, TTF_Font* course_text_font) {
     switch (scene) {
         case SCENE_MENU:
             render_menu(renderer, title_font, button_font);  // Rendre le menu
@@ -261,10 +271,10 @@ void render_scene(SceneType scene, SDL_Renderer* renderer, TTF_Font* title_font,
             render_score_scene(renderer, title_font, button_font, text_font);
             break;
 
-        /*
         case SCENE_RACE_CHOICE:
-            render_race_choice(renderer, title_font, button_font);
+            render_course_selection(renderer, title_font, course_text_font );
             break;
+        /*
         case SCENE_PRACTICE_CLASSIC:
             render_practice_classic(renderer, title_font, button_font, text_font);
             break;

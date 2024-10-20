@@ -9,8 +9,8 @@ typedef enum {
     SCENE_MENU,             // Menu principal
     SCENE_INIT,        // Simulation de course
     SCENE_CHOICE,
-    SCENE_SAVE,         // Affichage des résultats
-    SCENE_SCORE,   // Fin de championnat
+    SCENE_SAVE,       
+    SCENE_SCORE,   
     SCENE_LOAD_SAVE,         // Ajout de la scène pour charger une sauvegarde
     SCENE_RACE_CHOICE,      // interface de sélection de la course
     SCENE_PRACTICE_CLASSIC,         // interface de simulation des practices
@@ -29,6 +29,6 @@ typedef enum {
 // Prototypes des fonctions
 void init_scene(SceneType scene);
 SceneType update_scene(SceneType current_scene, SDL_Event* event);
-void render_scene(SceneType scene, SDL_Renderer* renderer, TTF_Font* title_font, TTF_Font* button_font, TTF_Font* text_font);
+void render_scene(SceneType scene, SDL_Renderer* renderer, TTF_Font* title_font, TTF_Font* button_font, TTF_Font* text_font, TTF_Font* course_text_font);
 
 #endif // SCENE_H
